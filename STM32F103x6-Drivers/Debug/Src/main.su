@@ -1,3 +1,0 @@
-main.c:41:6:OUR_SPI_IRQ_CallBack	16	static
-main.c:57:6:OUR_UART_IRQ_CallBack	8	static
-main.c:73:5:main	56	static

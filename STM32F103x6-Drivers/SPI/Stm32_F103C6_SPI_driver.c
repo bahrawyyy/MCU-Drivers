@@ -22,7 +22,10 @@
 
 
 SPI_Config* Global_SPI_Config[2] = {NULL,NULL};
-
+// Due to the problem of stacks in case of calling
+// the function init outside main
+SPI_Config Global_SPI1_Config;
+SPI_Config Global_SPI2_Config;
 
 #define SPI1_INDEX		0
 #define SPI2_INDEX		1
@@ -53,11 +56,13 @@ void MCAL_SPI_Init(SPI_Typedef* SPIx, SPI_Config* SPI_Cfg)
 
 	if(SPIx == SPI1)
 	{
-		Global_SPI_Config[SPI1_INDEX] = SPI_Cfg;
+		Global_SPI1_Config = *SPI_Cfg;
+		Global_SPI_Config[SPI1_INDEX] = &Global_SPI1_Config;
 		RCC_SPI1_CLK_EN();
 	}else if(SPIx == SPI2)
 	{
-		Global_SPI_Config[SPI2_INDEX] = SPI_Cfg;
+		Global_SPI2_Config = *SPI_Cfg;
+		Global_SPI_Config[SPI2_INDEX] = &Global_SPI2_Config;
 		RCC_SPI2_CLK_EN();
 	}
 
