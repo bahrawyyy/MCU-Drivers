@@ -73,12 +73,101 @@ typedef struct
 }TIMER0_Config_t;
 
 
+
+/*************************************
+ * 		Config Structure : TIMER 1
+ ************************************/
+
+// Timer 1 Modes
+typedef enum
+{
+	TIMER1_NORMAL_MODE=0,
+	TIMER1_FAST_PWM_ICR1_TOP,
+	TIMER1_FAST_PWM_OCR1A_TOP
+}TIMER1_MODE_t;
+
+
+typedef enum{
+	TIMER1_STOP=0,
+	TIMER1_PRESCALAR_1,
+	TIMER1_PRESCALAR_8,
+	TIMER1_PRESCALAR_64,
+	TIMER1_PRESCALAR_256,
+	TIMER1_PRESCALAR_1024,
+	EXTERNAL1_FALLING,
+	EXTERNAL1_RISING
+}Timer1_Prescalar;
+
+
+
+typedef enum
+{
+	OCRA_DISCONNECTED=0,
+	OCRA_TOGGLE,
+	OCRA_NON_INVERTING,
+	OCRA_INVERTING
+
+}OC1A_Mode_t;
+
+typedef enum
+{
+	OCRB_DISCONNECTED=0,
+	OCRB_TOGGLE,
+	OCRB_NON_INVERTING,
+	OCRB_INVERTING
+
+}OC1B_Mode_t;
+
+
+typedef enum
+{
+	TOIE1_DISABLE,
+	TOIE1_ENABLE = (1<<2)
+}TOVFIE1_t;
+
+typedef enum
+{
+	TICIE1_DISABLE,
+	TICIE1_ENABLE = (1<<5)
+}TICIE1_t;
+
+
+typedef enum
+{
+	TOCIEIA_DISABLE,
+	TOCIEIA_ENABLE = (1<<4)
+}TOCIEIA_t;
+
+typedef enum
+{
+	TOCIEIB_DISABLE,
+	TOCIEIB_ENABLE = (1<<3)
+}TOCIEIB_t;
+
+
+
+typedef struct
+{
+	TIMER1_MODE_t mode;
+	Timer1_Prescalar prescalar;
+	OC1A_Mode_t OC1A_mode;
+	OC1B_Mode_t OC1B_mode;
+	TOVFIE1_t OVF_Interrupt;
+	TICIE1_t ICU_Interrupt;
+	TOCIEIA_t OCA_Interrupt;
+	TOCIEIB_t OCB_Interrupt;
+}TIMER1_Config_t;
+
 /****************************
  * 		APIs
  **************************/
 
 ES_t TIMER0_Init(TIMER0_Config_t *TIME0_Cfg);
+ES_t TIMER1_Init(TIMER1_Config_t *TIME1_Cfg);
+
 ES_t TIMER0_Stop(void);
+ES_t TIMER1_Stop(void);
+
 
 ES_t TIMER0_GetCompareValue(u8 *CM_Value);
 ES_t TIMER0_SetCompareValue(u8 CM_Value);
@@ -93,7 +182,7 @@ void Timer0_OVF_SetCallBack(void (*Local_ptr_toFunc));
 void Timer0_OCM_SetCallBack(void (*Local_ptr_toFunc));
 
 
-ES_t PWM_Set_DutyCycle(u8 dutyCycle);
+ES_t PWM_Set_DutyCycle(float dutyCycle);
 
 
 
