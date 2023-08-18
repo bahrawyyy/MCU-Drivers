@@ -25,7 +25,6 @@ void Servo_Init(void)
 	DIO_ES_tSetPinDirection(DIO_U8_PORT_D, DIO_U8_PIN_5, OUTPUT);
 
 
-
 	TIMER1_Config_t Timer1Cfg;
 	Timer1Cfg.mode = TIMER1_FAST_PWM_ICR1_TOP;
 	Timer1Cfg.prescalar = TIMER1_PRESCALAR_64;
@@ -51,7 +50,7 @@ void Servo_Turn(int angle)
 		angle = 90;
 
 	// Calculate the pulse width based on the desired angle
-	u16 pulse_width_microseconds = 1500 + ((angle / 90) * 500);
+	u16 pulse_width_microseconds = 1500 + ((angle / 180.0) * 1000);
 	u16 pulse_width_counts = pulse_width_microseconds / 4; // Timer 1 resolution prescaler is 64
 	OCR1A = pulse_width_counts - 1;
 
